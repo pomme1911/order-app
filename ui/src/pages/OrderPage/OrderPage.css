@@ -1,0 +1,98 @@
+.order-page {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* 메뉴 영역 - 황금비율 61.8% */
+.menu-section {
+    flex: 0 0 var(--golden-ratio-large);
+    min-width: 0;
+}
+
+.section-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.section-header h2 {
+    font-size: var(--font-size-header);
+    color: var(--color-primary);
+    margin: 0;
+}
+
+/* 메뉴 그리드 */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+}
+
+.empty-menu {
+    text-align: center;
+    padding: var(--spacing-xxl);
+    color: var(--color-text-secondary);
+    background: var(--color-card-bg);
+    border-radius: var(--border-radius);
+}
+
+/* 장바구니 영역 - 황금비율 38.2% */
+.cart-section {
+    flex: 0 0 var(--golden-ratio-small);
+    min-width: 0;
+}
+
+/* 토스트 알림 */
+.toast {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-success);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    z-index: 3000;
+    animation: slideUpFade 0.3s ease-out;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* 태블릿 */
+@media (max-width: 1024px) {
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+    .order-page {
+        flex-direction: column;
+        padding: var(--spacing-md);
+    }
+
+    .menu-section,
+    .cart-section {
+        flex: 1 1 auto;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+}

@@ -1,0 +1,108 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 헤더 스타일 */
+.app-header {
+  height: var(--header-height);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-title {
+  color: white;
+  font-size: var(--font-size-header);
+  font-weight: 700;
+  margin: 0;
+}
+
+.app-nav {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.nav-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: transparent;
+  color: white;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-button.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* 메인 컨텐츠 */
+.app-main {
+  flex: 1;
+  background: var(--color-background);
+}
+
+.page-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  background: var(--color-card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-content h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.page-content p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 var(--spacing-md);
+  }
+
+  .app-title {
+    font-size: 18px;
+  }
+
+  .nav-button {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 14px;
+  }
+
+  .app-main {
+    padding: var(--spacing-md);
+  }
+
+  .page-content {
+    padding: var(--spacing-md);
+  }
+}
