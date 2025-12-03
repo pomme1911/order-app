@@ -82,6 +82,7 @@ const OrderPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(MENU_CATEGORIES.ALL);
     const [selectedMenu, setSelectedMenu] = useState(null);
     const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
 
     const {
         cart,
@@ -108,31 +109,43 @@ const OrderPage = () => {
         setSelectedMenu(null);
     };
 
+    // 토스트 표시
+    const showToastMessage = (message) => {
+        setToastMessage(message);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+    };
+
     // 장바구니에 추가
     const handleAddToCart = (item) => {
         addToCart(item);
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2000);
+        showToastMessage(`✓ ${item.menuName}이(가) 장바구니에 추가되었습니다`);
     };
 
     // 주문하기
     const handleOrder = async () => {
         if (cart.length === 0) return;
 
+        const totalAmount = getTotalAmount();
         const confirmed = window.confirm(
-            `총 ${getTotalAmount().toLocaleString()}원을 주문하시겠습니까?`
+            `총 ${totalAmount.toLocaleString()}원을 주문하시겠습니까?`
         );
 
         if (confirmed) {
-            // TODO: API 호출로 주문 생성
-            console.log('주문 데이터:', {
-                items: cart,
-                totalAmount: getTotalAmount(),
-                orderDate: new Date(),
-            });
+            try {
+                // TODO: API 호출로 주문 생성
+                console.log('주문 데이터:', {
+                    items: cart,
+                    totalAmount: totalAmount,
+                    orderDate: new Date(),
+                });
 
-            alert('주문이 완료되었습니다!');
-            clearCart();
+                showToastMessage('✓ 주문이 완료되었습니다!');
+                clearCart();
+            } catch (error) {
+                console.error('주문 실패:', error);
+                showToastMessage('✗ 주문에 실패했습니다. 다시 시도해주세요.');
+            }
         }
     };
 
@@ -142,6 +155,7 @@ const OrderPage = () => {
             <div className="menu-section">
                 <div className="section-header">
                     <h2>메뉴</h2>
+                    <span className="menu-count">{filteredMenus.length}개</span>
                 </div>
 
                 <CategoryFilter
@@ -157,6 +171,7 @@ const OrderPage = () => {
 
                 {filteredMenus.length === 0 && (
                     <div className="empty-menu">
+                        <div className="empty-icon">☕</div>
                         <p>해당 카테고리에 메뉴가 없습니다.</p>
                     </div>
                 )}
@@ -183,8 +198,8 @@ const OrderPage = () => {
 
             {/* 토스트 알림 */}
             {showToast && (
-                <div className="toast">
-                    ✓ 장바구니에 추가되었습니다
+                <div className="toast" role="alert" aria-live="polite">
+                    {toastMessage}
                 </div>
             )}
         </div>

@@ -1,0 +1,202 @@
+.inventory-card {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    /* 황금비율 적용 */
+    aspect-ratio: 1 / 1.618;
+}
+
+.inventory-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.inventory-card.out-of-stock {
+    opacity: 0.7;
+}
+
+.inventory-image {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background: var(--color-background);
+}
+
+.inventory-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category-badge {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    background: var(--color-primary);
+    color: white;
+    padding: 4px var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.inventory-info {
+    padding: var(--spacing-md);
+    flex: 1;
+}
+
+.inventory-name {
+    font-size: var(--font-size-body);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.stock-status {
+    display: inline-block;
+    padding: 4px var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.stock-sufficient {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--color-success);
+}
+
+.stock-low {
+    background: rgba(255, 152, 0, 0.1);
+    color: var(--color-warning);
+}
+
+.stock-out {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--color-error);
+}
+
+.stock-quantity {
+    font-size: var(--font-size-caption);
+    color: var(--color-text-secondary);
+}
+
+.quantity-value {
+    font-weight: 700;
+    color: var(--color-primary);
+    font-size: var(--font-size-body);
+}
+
+.inventory-controls {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.stock-adjuster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    background: var(--color-background);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-xs);
+}
+
+.adjust-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--color-card-bg);
+    color: var(--color-primary);
+    border-radius: var(--border-radius-sm);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adjust-btn:hover:not(:disabled) {
+    background: var(--color-primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.adjust-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.stock-display {
+    min-width: 50px;
+    text-align: center;
+    font-weight: 700;
+    font-size: var(--font-size-body);
+    color: var(--color-text-primary);
+}
+
+.quick-add {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.quick-btn {
+    flex: 1;
+    padding: var(--spacing-xs);
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.quick-btn:hover {
+    background: #E55A2B;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .inventory-card {
+        aspect-ratio: 1 / 1.4;
+    }
+
+    .inventory-image {
+        height: 120px;
+    }
+
+    .inventory-info {
+        padding: var(--spacing-sm);
+    }
+
+    .inventory-name {
+        font-size: 14px;
+    }
+
+    .inventory-controls {
+        padding: var(--spacing-sm);
+    }
+
+    .adjust-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+
+    .stock-display {
+        font-size: 14px;
+    }
+}

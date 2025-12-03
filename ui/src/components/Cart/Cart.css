@@ -41,6 +41,28 @@
     text-align: center;
     padding: var(--spacing-xxl) var(--spacing-md);
     color: var(--color-text-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.empty-icon {
+    font-size: 48px;
+    opacity: 0.3;
+    margin-bottom: var(--spacing-sm);
+}
+
+.empty-cart p {
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.empty-hint {
+    font-size: var(--font-size-caption);
+    color: var(--color-text-secondary);
 }
 
 .cart-item {

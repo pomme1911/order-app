@@ -7,6 +7,7 @@ import './Cart.css';
 const Cart = ({ cart, onUpdateQuantity, onRemove, onOrder }) => {
     const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
     const totalAmount = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+    const isEmpty = cart.length === 0;
 
     const handleQuantityChange = (itemId, delta) => {
         const item = cart.find((i) => i.id === itemId);
@@ -19,13 +20,15 @@ const Cart = ({ cart, onUpdateQuantity, onRemove, onOrder }) => {
         <div className="cart">
             <div className="cart-header">
                 <h2>🛒 장바구니</h2>
-                <span className="cart-count">({totalQuantity}개)</span>
+                {!isEmpty && <span className="cart-count">({totalQuantity}개)</span>}
             </div>
 
             <div className="cart-items">
-                {cart.length === 0 ? (
+                {isEmpty ? (
                     <div className="empty-cart">
+                        <div className="empty-icon">🛒</div>
                         <p>장바구니가 비어있습니다</p>
+                        <span className="empty-hint">메뉴를 선택해주세요</span>
                     </div>
                 ) : (
                     cart.map((item) => (
@@ -46,6 +49,7 @@ const Cart = ({ cart, onUpdateQuantity, onRemove, onOrder }) => {
                                     <button
                                         className="qty-btn"
                                         onClick={() => handleQuantityChange(item.id, -1)}
+                                        aria-label="수량 감소"
                                     >
                                         −
                                     </button>
@@ -53,6 +57,7 @@ const Cart = ({ cart, onUpdateQuantity, onRemove, onOrder }) => {
                                     <button
                                         className="qty-btn"
                                         onClick={() => handleQuantityChange(item.id, 1)}
+                                        aria-label="수량 증가"
                                     >
                                         +
                                     </button>
@@ -61,6 +66,7 @@ const Cart = ({ cart, onUpdateQuantity, onRemove, onOrder }) => {
                                     className="remove-btn"
                                     onClick={() => onRemove(item.id)}
                                     title="삭제"
+                                    aria-label="장바구니에서 삭제"
                                 >
                                     ×
                                 </button>
@@ -73,24 +79,28 @@ const Cart = ({ cart, onUpdateQuantity, onRemove, onOrder }) => {
                 )}
             </div>
 
-            <div className="cart-summary">
-                <div className="summary-row">
-                    <span>총 수량</span>
-                    <span>{totalQuantity}개</span>
-                </div>
-                <div className="summary-row total">
-                    <span>총 금액</span>
-                    <span className="total-amount">{formatPrice(totalAmount)}</span>
-                </div>
-            </div>
+            {!isEmpty && (
+                <>
+                    <div className="cart-summary">
+                        <div className="summary-row">
+                            <span>총 수량</span>
+                            <span>{totalQuantity}개</span>
+                        </div>
+                        <div className="summary-row total">
+                            <span>총 금액</span>
+                            <span className="total-amount">{formatPrice(totalAmount)}</span>
+                        </div>
+                    </div>
 
-            <button
-                className="order-btn btn btn-primary"
-                onClick={onOrder}
-                disabled={cart.length === 0}
-            >
-                주문하기 ({formatPrice(totalAmount)})
-            </button>
+                    <button
+                        className="order-btn btn btn-primary"
+                        onClick={onOrder}
+                        disabled={isEmpty}
+                    >
+                        주문하기 ({formatPrice(totalAmount)})
+                    </button>
+                </>
+            )}
         </div>
     );
 };

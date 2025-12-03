@@ -1,0 +1,88 @@
+.admin-page {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* 사이드바 영역 - 황금비율 38.2% */
+.admin-sidebar-section {
+    flex: 0 0 var(--golden-ratio-small);
+    min-width: 0;
+}
+
+/* 메인 컨텐츠 영역 - 황금비율 61.8% */
+.admin-main-section {
+    flex: 0 0 var(--golden-ratio-large);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.admin-panel {
+    background: var(--color-card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+/* 주문 패널 */
+.order-panel {
+    /* 38.2% of main content */
+    flex: 0 0 auto;
+}
+
+/* 재고 패널 */
+.inventory-panel {
+    /* 61.8% of main content */
+    flex: 1 1 auto;
+    padding: var(--spacing-lg);
+}
+
+.panel-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.panel-header h3 {
+    font-size: var(--font-size-subheader);
+    color: var(--color-primary);
+    margin: 0;
+}
+
+/* 재고 그리드 */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+}
+
+/* 태블릿 */
+@media (max-width: 1024px) {
+    .inventory-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-md);
+    }
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+    .admin-page {
+        flex-direction: column;
+        padding: var(--spacing-md);
+    }
+
+    .admin-sidebar-section,
+    .admin-main-section {
+        flex: 1 1 auto;
+    }
+
+    .inventory-panel {
+        padding: var(--spacing-md);
+    }
+
+    .inventory-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+}

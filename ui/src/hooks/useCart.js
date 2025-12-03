@@ -79,6 +79,13 @@ export const useCart = () => {
         return cart.reduce((total, item) => total + item.totalPrice, 0);
     };
 
+    /**
+     * 장바구니가 비어있는지 확인
+     */
+    const isEmpty = () => {
+        return cart.length === 0;
+    };
+
     return {
         cart,
         addToCart,
@@ -87,5 +94,6 @@ export const useCart = () => {
         clearCart,
         getTotalQuantity,
         getTotalAmount,
+        isEmpty,
     };
 };

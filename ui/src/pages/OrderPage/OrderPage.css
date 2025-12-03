@@ -14,12 +14,21 @@
 
 .section-header {
     margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
 }
 
 .section-header h2 {
     font-size: var(--font-size-header);
     color: var(--color-primary);
     margin: 0;
+}
+
+.menu-count {
+    font-size: var(--font-size-caption);
+    color: var(--color-text-secondary);
+    font-weight: 600;
 }
 
 /* 메뉴 그리드 */
@@ -35,6 +44,21 @@
     color: var(--color-text-secondary);
     background: var(--color-card-bg);
     border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.empty-icon {
+    font-size: 64px;
+    opacity: 0.2;
+    margin-bottom: var(--spacing-md);
+}
+
+.empty-menu p {
+    font-size: var(--font-size-body);
+    margin: 0;
 }
 
 /* 장바구니 영역 - 황금비율 38.2% */
