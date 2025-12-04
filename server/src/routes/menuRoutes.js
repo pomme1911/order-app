@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const menuController = require('../controllers/menuController');
 
 /**
  * 메뉴 관련 라우트
@@ -7,59 +8,15 @@ const router = express.Router();
  */
 
 // GET /api/menus - 메뉴 목록 조회
-router.get('/', async (req, res, next) => {
-    try {
-        // TODO: 컨트롤러 구현 후 연결
-        res.json({
-            success: true,
-            message: '메뉴 목록 조회 API (구현 예정)',
-            data: [],
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+router.get('/', menuController.getMenus);
 
 // GET /api/menus/:menuId - 메뉴 상세 조회
-router.get('/:menuId', async (req, res, next) => {
-    try {
-        // TODO: 컨트롤러 구현 후 연결
-        res.json({
-            success: true,
-            message: '메뉴 상세 조회 API (구현 예정)',
-            data: {},
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+router.get('/:menuId', menuController.getMenuDetail);
 
 // GET /api/menus/:menuId/options - 메뉴 옵션 조회
-router.get('/:menuId/options', async (req, res, next) => {
-    try {
-        // TODO: 컨트롤러 구현 후 연결
-        res.json({
-            success: true,
-            message: '메뉴 옵션 조회 API (구현 예정)',
-            data: {},
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+router.get('/:menuId/options', menuController.getMenuOptions);
 
 // PATCH /api/menus/:menuId - 메뉴 재고 수정 (관리자)
-router.patch('/:menuId', async (req, res, next) => {
-    try {
-        // TODO: 컨트롤러 구현 후 연결
-        res.json({
-            success: true,
-            message: '메뉴 재고 수정 API (구현 예정)',
-            data: {},
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+router.patch('/:menuId', menuController.updateStock);
 
 module.exports = router;
