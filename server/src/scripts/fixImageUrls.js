@@ -22,6 +22,8 @@ const fixImageUrls = async () => {
 
         console.log('🔧 이미지 URL 수정을 시작합니다...');
 
+        const results = [];
+
         for (const [koreanName, englishFile] of Object.entries(imageMapping)) {
             const result = await client.query(
                 `UPDATE menus 
@@ -33,6 +35,7 @@ const fixImageUrls = async () => {
 
             if (result.rows.length > 0) {
                 console.log(`✅ ${koreanName}: ${result.rows[0].image_url}`);
+                results.push(result.rows[0]);
             } else {
                 console.log(`⚠️  ${koreanName}: 메뉴를 찾을 수 없습니다.`);
             }
@@ -40,11 +43,12 @@ const fixImageUrls = async () => {
 
         await client.query('COMMIT');
         console.log('🎉 이미지 URL 수정이 완료되었습니다!');
-        process.exit(0);
+
+        return results;
     } catch (error) {
         await client.query('ROLLBACK');
         console.error('❌ 이미지 URL 수정 중 에러 발생:', error);
-        process.exit(1);
+        throw error;
     } finally {
         client.release();
     }
