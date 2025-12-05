@@ -5,14 +5,17 @@ require('dotenv').config();
  * PostgreSQL 데이터베이스 연결 풀 설정
  */
 const pool = new Pool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    database: process.env.DB_NAME || 'coffee_order_db',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD,
+    connectionString: process.env.DATABASE_URL,
+    // Fallback to individual variables if DATABASE_URL is not set (local dev)
+    host: process.env.DATABASE_URL ? undefined : (process.env.DB_HOST || 'localhost'),
+    port: process.env.DATABASE_URL ? undefined : (process.env.DB_PORT || 5432),
+    database: process.env.DATABASE_URL ? undefined : (process.env.DB_NAME || 'coffee_order_db'),
+    user: process.env.DATABASE_URL ? undefined : (process.env.DB_USER || 'postgres'),
+    password: process.env.DATABASE_URL ? undefined : process.env.DB_PASSWORD,
     max: 20, // 최대 연결 수
     idleTimeoutMillis: 30000, // 유휴 연결 타임아웃
     connectionTimeoutMillis: 2000, // 연결 타임아웃
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 /**
