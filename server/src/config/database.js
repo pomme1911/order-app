@@ -15,7 +15,9 @@ const pool = new Pool({
     max: 20, // 최대 연결 수
     idleTimeoutMillis: 30000, // 유휴 연결 타임아웃
     connectionTimeoutMillis: 2000, // 연결 타임아웃
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    ssl: (process.env.DATABASE_URL || (process.env.DB_HOST && process.env.DB_HOST.includes('render.com')))
+        ? { rejectUnauthorized: false }
+        : false,
 });
 
 /**
