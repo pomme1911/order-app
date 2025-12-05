@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getMenus } from '../../api/menuApi';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import OrderTable from '../../components/OrderTable/OrderTable';
 import InventoryCard from '../../components/InventoryCard/InventoryCard';
@@ -54,65 +55,7 @@ const MOCK_ORDERS = [
     },
 ];
 
-// 임시 재고 데이터
-const MOCK_INVENTORY = [
-    {
-        menuId: 1,
-        menuName: '아메리카노',
-        category: '에스프레소',
-        imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400',
-        currentStock: 50,
-    },
-    {
-        menuId: 2,
-        menuName: '카페라떼',
-        category: '라떼',
-        imageUrl: 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400',
-        currentStock: 30,
-    },
-    {
-        menuId: 3,
-        menuName: '카푸치노',
-        category: '라떼',
-        imageUrl: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400',
-        currentStock: 25,
-    },
-    {
-        menuId: 4,
-        menuName: '바닐라 라떼',
-        category: '라떼',
-        imageUrl: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400',
-        currentStock: 8,
-    },
-    {
-        menuId: 5,
-        menuName: '카라멜 마끼아또',
-        category: '라떼',
-        imageUrl: 'https://images.unsplash.com/photo-1599750451062-f6f0b3c0f4e5?w=400',
-        currentStock: 20,
-    },
-    {
-        menuId: 6,
-        menuName: '모카 프라페',
-        category: '프라페',
-        imageUrl: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400',
-        currentStock: 0,
-    },
-    {
-        menuId: 7,
-        menuName: '에스프레소',
-        category: '에스프레소',
-        imageUrl: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400',
-        currentStock: 40,
-    },
-    {
-        menuId: 8,
-        menuName: '디카페인 아메리카노',
-        category: '디카페인',
-        imageUrl: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400',
-        currentStock: 35,
-    },
-];
+
 
 
 /**
@@ -121,8 +64,37 @@ const MOCK_INVENTORY = [
 const AdminPage = () => {
     const [activeSection, setActiveSection] = useState('inventory');
     const [orders, setOrders] = useState(MOCK_ORDERS);
-    const [inventory, setInventory] = useState(MOCK_INVENTORY);
+    const [inventory, setInventory] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
+
+    // 메뉴 데이터 로드
+    useEffect(() => {
+        const fetchMenus = async () => {
+            try {
+                setLoading(true);
+                const data = await getMenus();
+                // API 데이터를 관리자 페이지 형식으로 변환
+                const formattedInventory = data.map(menu => ({
+                    menuId: menu.id,
+                    menuName: menu.name,
+                    category: menu.category,
+                    imageUrl: menu.image_url,
+                    currentStock: menu.stock,
+                }));
+                setInventory(formattedInventory);
+                setError(null);
+            } catch (err) {
+                console.error('메뉴 로드 실패:', err);
+                setError('메뉴를 불러오는데 실패했습니다.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMenus();
+    }, []);
 
     // 통계 계산
     const stats = {
@@ -179,15 +151,33 @@ const AdminPage = () => {
                         <div className="panel-header">
                             <h3>📦 재고 관리</h3>
                         </div>
-                        <div className="inventory-grid">
-                            {inventory.map((item) => (
-                                <InventoryCard
-                                    key={item.menuId}
-                                    item={item}
-                                    onUpdateStock={handleUpdateStock}
-                                />
-                            ))}
-                        </div>
+
+                        {loading && (
+                            <div className="loading-state">
+                                <div className="loading-spinner"></div>
+                                <p>재고 데이터를 불러오는 중...</p>
+                            </div>
+                        )}
+
+                        {error && (
+                            <div className="error-state">
+                                <div className="error-icon">⚠️</div>
+                                <p>{error}</p>
+                                <button onClick={() => window.location.reload()}>다시 시도</button>
+                            </div>
+                        )}
+
+                        {!loading && !error && (
+                            <div className="inventory-grid">
+                                {inventory.map((item) => (
+                                    <InventoryCard
+                                        key={item.menuId}
+                                        item={item}
+                                        onUpdateStock={handleUpdateStock}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
