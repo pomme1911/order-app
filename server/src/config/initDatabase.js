@@ -144,7 +144,12 @@ const insertSampleData = async () => {
       const result = await client.query(
         `INSERT INTO menus (name, description, price, category, stock, quantity, image_url)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
-         ON CONFLICT (name) DO UPDATE SET image_url = EXCLUDED.image_url
+         ON CONFLICT (name) DO UPDATE SET 
+           image_url = EXCLUDED.image_url,
+           description = EXCLUDED.description,
+           price = EXCLUDED.price,
+           category = EXCLUDED.category,
+           updated_at = CURRENT_TIMESTAMP
          RETURNING id`,
         [menu.name, menu.description, menu.price, menu.category, menu.stock, menu.quantity, `/images/${menu.image_file}`]
       );
